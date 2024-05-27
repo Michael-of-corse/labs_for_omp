@@ -9,6 +9,7 @@ using namespace std;
 
 int main()
 {
+  cout << "Магический Квадрат:\nВведи размер квадрата ";
   int n; cin>>n;
   matrix vec(n,std::vector<int> (n));
   for (auto& i : vec){
@@ -19,9 +20,12 @@ int main()
   bool flc=0, flr=0,flx=0;
   int s0=0;
 for(int i=0;i!=vec.size();++i)s0+=vec[0][i];
-#pragma omp parallel{
-#pragma omp sections{
-  #pragma omp section{
+#pragma omp parallel
+{
+#pragma omp sections
+{
+  #pragma omp section
+  {
     int s=0;
     for(int i =1; i !=vec.size(); ++i){
       for(int j:vec[i])s+=j;
@@ -29,14 +33,17 @@ for(int i=0;i!=vec.size();++i)s0+=vec[0][i];
         s=0;
     }
   }
-  #pragma omp section{
+  #pragma omp section
+  {
   int s=0;
   for(int i=0;i!=vec.size();++i){
     for(int j=0;j!=vec.size();++j)s+=vec[j][i];
     if(s0!=s){flc=1;break;break;}
-    s=0
+    s=0;
+    }
   }
-  #pragma omp section{
+  #pragma omp section
+  {
   int sx=0, sy=0;
   for(int i=0;i!=vec.size();++i){
     sx+=vec[i][i];
@@ -51,4 +58,6 @@ for(int i=0;i!=vec.size();++i)s0+=vec[0][i];
 // }
 
 
+}
+return 0;
 }
